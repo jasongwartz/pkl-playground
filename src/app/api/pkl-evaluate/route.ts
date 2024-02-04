@@ -2,6 +2,8 @@
 // See https://vercel.com/docs/concepts/functions/edge-functions
 // export const runtime = 'edge';
 
+"use server";
+
 import { evaluate } from "@pkl-community/pkl-eval";
 import { writeFile } from "fs/promises";
 import { temporaryFile } from "tempy";
@@ -14,6 +16,6 @@ export async function POST(req: Request) {
   await writeFile(tempFile, pklInput);
 
   return Response.json({
-    output: await evaluate(tempFile),
+    output: await evaluate(pklInput, {}),
   });
 }
