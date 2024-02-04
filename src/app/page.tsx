@@ -24,9 +24,8 @@ export default function Home() {
     "// Change the Pkl code on the left to see some output"
   );
   const onUserInputChange = React.useCallback(async (val: string) => {
-    console.log(val);
     setUserInputCode(val);
-    const response = await fetch("/api/pkl-evaluate", {
+    const response = await fetch("/api/pkl/evaluate", {
       method: "POST",
       body: JSON.stringify({
         pklInput: val,
