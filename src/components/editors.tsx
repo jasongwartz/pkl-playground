@@ -5,6 +5,7 @@ import {
   Form,
   Button,
   Modal,
+  Icon,
 } from "react-bulma-components";
 import React, { useEffect } from "react";
 import { githubLight } from "@uiw/codemirror-theme-github";
@@ -59,8 +60,8 @@ export default function Editors() {
 
   const [didLoadFromShare, setDidLoadFromShare] = React.useState(false);
   const params = useSearchParams();
-  if (params.has("id") && !didLoadFromShare) {
-    const id = params.get("id");
+  if (params.has("share") && !didLoadFromShare) {
+    const id = params.get("share");
     fetch(`/api/share?id=${id}`).then(async (res) => {
       setUserInputCode((await res.json()).text);
       setDidLoadFromShare(true);
@@ -110,7 +111,10 @@ export default function Editors() {
       body: userInputCode,
     });
     if (response.ok) {
-      setShareLink((await response.json()).id);
+      const shareUrl = new URL(window.location.href);
+      shareUrl.searchParams.set("share", (await response.json()).id);
+
+      setShareLink(shareUrl.toString());
       setShareModalOpen(true);
     }
   }, [userInputCode]);
@@ -121,13 +125,10 @@ export default function Editors() {
         <Columns.Column size="half">
           <Container>
             <Box>
-              <Form.Select onChange={onOutputFormatChange}>
-                {outputOptions.map((opt) => (
-                  <option value={opt} key={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </Form.Select>
+              <Button onClick={onCreateShare}>
+                Share&nbsp;
+                <FontAwesomeIcon icon={faShare} />
+              </Button>
             </Box>
             <Box>
               <CodeMirror
@@ -145,10 +146,13 @@ export default function Editors() {
         <Columns.Column size="half">
           <Container>
             <Box>
-              <Button onClick={onCreateShare}>
-                Share&nbsp;
-                <FontAwesomeIcon icon={faShare} />
-              </Button>
+              <Form.Select onChange={onOutputFormatChange}>
+                {outputOptions.map((opt) => (
+                  <option value={opt} key={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </Form.Select>
             </Box>
             <Box>
               <CodeMirror
@@ -172,10 +176,14 @@ export default function Editors() {
             <Modal.Card.Title>Copy share link</Modal.Card.Title>
           </Modal.Card.Header>
           <Modal.Card.Body>
-            <Box onClick={() => console.log(shareLink)}>
-              {/* {window.location.href.split("?")[0]} */}
-              ?id={shareLink}
-              <FontAwesomeIcon icon={faCopy} />
+            <Box
+              onClick={() => console.log(shareLink)}
+              className="is-clickable"
+            >
+              {shareLink}
+              <Icon align="right">
+                <FontAwesomeIcon icon={faCopy} />
+              </Icon>
             </Box>
           </Modal.Card.Body>
         </Modal.Card>
