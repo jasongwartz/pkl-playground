@@ -7,9 +7,22 @@ import {
   Heading,
   Hero,
   Form,
+  Section,
 } from "react-bulma-components";
 import React, { useEffect } from "react";
 import { githubLight } from "@uiw/codemirror-theme-github";
+import {
+  LanguageSupport,
+  StreamLanguage,
+  StreamParser,
+} from "@codemirror/language";
+import { groovy } from "@codemirror/legacy-modes/mode/groovy";
+import { properties } from "@codemirror/legacy-modes/mode/properties";
+import { protobuf } from "@codemirror/legacy-modes/mode/protobuf";
+import { yaml } from "@codemirror/legacy-modes/mode/yaml";
+import { json as langJson } from "@codemirror/lang-json";
+import { xml as langXml } from "@codemirror/lang-xml";
+import { javascript as langJavascript } from "@codemirror/lang-javascript";
 
 import CodeMirror from "@uiw/react-codemirror";
 
@@ -33,6 +46,20 @@ const outputOptions = [
 ] as const;
 
 type OutputOption = (typeof outputOptions)[number];
+
+const syntaxThemes: Record<
+  OutputOption,
+  StreamLanguage<unknown> | LanguageSupport
+> = {
+  JSON: langJson(),
+  Jsonnet: langJavascript(), // Not perfect, but maybe close?
+  Pcf: StreamLanguage.define(groovy),
+  Plist: langXml(),
+  Properties: StreamLanguage.define(properties),
+  TextProto: StreamLanguage.define(protobuf),
+  XML: langXml(),
+  YAML: StreamLanguage.define(yaml),
+} as const;
 
 export default function Home() {
   const [userInputCode, setUserInputCode] = React.useState(defaultText);
@@ -82,45 +109,51 @@ export default function Home() {
         </Hero.Body>
       </Hero>
 
-      <Container>
-        <Columns>
-          <Columns.Column>
-            <Container>
-              <Box>
-                <CodeMirror
-                  value={userInputCode}
-                  extensions={[]}
-                  theme={githubLight}
-                  onChange={onUserInputChange}
-                  autoFocus
-                />
-              </Box>
-            </Container>
-          </Columns.Column>
-          <Columns.Column>
-            <Container>
-              <Box>
-                <Form.Select onChange={onOutputFormatChange}>
-                  {outputOptions.map((opt) => (
-                    <option value={opt.toLowerCase()} key={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Box>
-              <Box>
-                <CodeMirror
-                  value={evaluatedOutputCode}
-                  extensions={[]}
-                  theme={githubLight}
-                  onChange={onUserInputChange}
-                  editable={false}
-                />
-              </Box>
-            </Container>
-          </Columns.Column>
-        </Columns>
-      </Container>
+      <Section>
+        <Container>
+          <Columns>
+            <Columns.Column size="half">
+              <Container>
+                <Box>
+                  <CodeMirror
+                    value={userInputCode}
+                    extensions={[syntaxThemes.Pcf]}
+                    theme={githubLight}
+                    onChange={onUserInputChange}
+                    autoFocus
+                  />
+                </Box>
+              </Container>
+            </Columns.Column>
+            <Columns.Column size="half">
+              <Container>
+                <Box>
+                  <Form.Select onChange={onOutputFormatChange}>
+                    {outputOptions.map((opt) => (
+                      <option value={opt} key={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Box>
+                <Box>
+                  <CodeMirror
+                    value={evaluatedOutputCode}
+                    extensions={
+                      outputFormat in syntaxThemes
+                        ? [syntaxThemes[outputFormat]]
+                        : []
+                    }
+                    theme={githubLight}
+                    onChange={onUserInputChange}
+                    editable={false}
+                  />
+                </Box>
+              </Container>
+            </Columns.Column>
+          </Columns>
+        </Container>
+      </Section>
     </main>
   );
 }
