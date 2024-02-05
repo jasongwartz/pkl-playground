@@ -21,7 +21,10 @@
     "@pkl-community/pkl-eval": "^0.0.2",
     "@uiw/codemirror-theme-github": "^4.21.21",
     "@uiw/react-codemirror": "^4.21.21",
+    "@vercel/kv": "^1.0.1",
+    "copy-to-clipboard": "^3.3.3",
     "next": "14.1.0",
+    "random-words": "^2.0.1",
     "react": "^18",
     "react-bulma-components": "^4.1.0",
     "react-dom": "^18"
@@ -34,6 +37,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "prettier": "^3.2.5",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^33.4.1"
   }
 }
