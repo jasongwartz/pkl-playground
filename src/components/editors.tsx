@@ -26,10 +26,23 @@ import { faShare, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useSearchParams } from "next/navigation";
 import copy from "copy-to-clipboard";
 
-const defaultText = `anObject {
-    x = 1
-    y = 2
-  }`;
+const defaultText = `class Bird {
+  name: String
+  function greet(bird: Bird): String = "Hello, \\(bird.name)!"
+}
+
+function greetPigeon(bird: Bird): String = bird.greet(pigeon)
+
+pigeon: Bird = new {
+  name = "Pigeon"
+}
+parrot: Bird = new {
+  name = "Parrot"
+}
+
+greeting1 = pigeon.greet(parrot)
+greeting2 = greetPigeon(parrot)
+`;
 
 const outputOptions = [
   "JSON",
