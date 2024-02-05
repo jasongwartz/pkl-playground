@@ -28,13 +28,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 
-const defaultText = `// Write your Pkl code here
-
-anObject {
+const defaultText = `anObject {
   x = 1
   y = 2
-}
-`;
+}`;
 
 const outputOptions = [
   "JSON",
@@ -132,18 +129,23 @@ export default function Home() {
         </Hero.Body>
       </Hero>
 
-      <Section>
+      <Section size="large">
         <Container>
           <Columns>
             <Columns.Column size="half">
               <Container>
+                <Box>
+                  <Heading>Pkl code</Heading>
+                </Box>
                 <Box>
                   <CodeMirror
                     value={userInputCode}
                     extensions={[syntaxThemes.Pcf]}
                     theme={githubLight}
                     onChange={onUserInputChange}
-                    autoFocus
+                    autoFocus={true}
+                    height="100%"
+                    style={{ height: "100%" }}
                   />
                 </Box>
               </Container>
@@ -151,13 +153,20 @@ export default function Home() {
             <Columns.Column size="half">
               <Container>
                 <Box>
-                  <Form.Select onChange={onOutputFormatChange}>
-                    {outputOptions.map((opt) => (
-                      <option value={opt} key={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </Form.Select>
+                  <Columns>
+                    <Columns.Column>
+                      <Heading>Output format:</Heading>
+                    </Columns.Column>
+                    <Columns.Column>
+                      <Form.Select onChange={onOutputFormatChange}>
+                        {outputOptions.map((opt) => (
+                          <option value={opt} key={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Columns.Column>
+                  </Columns>
                 </Box>
                 <Box>
                   <CodeMirror
