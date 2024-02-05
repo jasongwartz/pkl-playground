@@ -8,14 +8,13 @@ import {
   Hero,
   Form,
   Section,
+  Navbar,
+  Button,
+  Icon,
 } from "react-bulma-components";
 import React, { useEffect } from "react";
 import { githubLight } from "@uiw/codemirror-theme-github";
-import {
-  LanguageSupport,
-  StreamLanguage,
-  StreamParser,
-} from "@codemirror/language";
+import { LanguageSupport, StreamLanguage } from "@codemirror/language";
 import { groovy } from "@codemirror/legacy-modes/mode/groovy";
 import { properties } from "@codemirror/legacy-modes/mode/properties";
 import { protobuf } from "@codemirror/legacy-modes/mode/protobuf";
@@ -25,6 +24,9 @@ import { xml as langXml } from "@codemirror/lang-xml";
 import { javascript as langJavascript } from "@codemirror/lang-javascript";
 
 import CodeMirror from "@uiw/react-codemirror";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
 
 const defaultText = `// Write your Pkl code here
 
@@ -101,6 +103,27 @@ export default function Home() {
   return (
     <main>
       <Hero color={"primary"}>
+        <Hero.Header>
+          <Navbar>
+            <Navbar.Menu>
+              <Navbar.Container align="right">
+                <Navbar.Item href="https://pkl-lang.org" target="_blank">
+                  <Button>
+                    <FontAwesomeIcon icon={faBook} size="xl"></FontAwesomeIcon>
+                  </Button>
+                </Navbar.Item>
+                <Navbar.Item
+                  href="https://github.com/jasongwartz/pkl-playground"
+                  target="_blank"
+                >
+                  <Button color="primary" inverted>
+                    <FontAwesomeIcon icon={faGithub} size="xl" />
+                  </Button>
+                </Navbar.Item>
+              </Navbar.Container>
+            </Navbar.Menu>
+          </Navbar>
+        </Hero.Header>
         <Hero.Body>
           <Container>
             <Heading>Pkl Playground</Heading>
