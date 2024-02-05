@@ -8,7 +8,15 @@ export async function POST(req: Request) {
 
   try {
     return Response.json({
-      output: await evaluate(pklInput, { format: outputFormat ?? "pcf" }),
+      output: await evaluate(pklInput, {
+        format: outputFormat ?? "pcf",
+        allowedResources: ["package:"],
+        allowedModules: ["pkl:"],
+        cache: {
+          enabled: true,
+          directory: "/tmp/pkl",
+        },
+      }),
     });
   } catch (err) {
     return Response.json(

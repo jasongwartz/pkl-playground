@@ -18,7 +18,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@pkl-community/pkl-eval": "^0.0.2",
+    "@pkl-community/pkl-eval": "^0.0.3",
     "@uiw/codemirror-theme-github": "^4.21.21",
     "@uiw/react-codemirror": "^4.21.21",
     "@vercel/kv": "^1.0.1",
