@@ -11,7 +11,7 @@ export async function POST(req: Request) {
       output: await evaluate(pklInput, {
         format: outputFormat ?? "pcf",
         allowedResources: ["package:"],
-        allowedModules: ["pkl:"],
+        allowedModules: ["pkl:", "repl:"],
         cache: {
           enabled: true,
           directory: "/tmp/pkl",
