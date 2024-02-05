@@ -11,6 +11,7 @@ import {
   Navbar,
   Button,
   Icon,
+  Modal,
 } from "react-bulma-components";
 import React, { useEffect } from "react";
 import { githubLight } from "@uiw/codemirror-theme-github";
@@ -26,7 +27,8 @@ import { javascript as langJavascript } from "@codemirror/lang-javascript";
 import CodeMirror from "@uiw/react-codemirror";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faCopy, faShare } from "@fortawesome/free-solid-svg-icons";
+import { useSearchParams } from "next/navigation";
 
 const defaultText = `anObject {
   x = 1
@@ -62,10 +64,23 @@ const syntaxThemes: Record<
 
 export default function Home() {
   const [userInputCode, setUserInputCode] = React.useState(defaultText);
+
+  const [didLoadFromShare, setDidLoadFromShare] = React.useState(false);
+  const params = useSearchParams();
+  if (params.has("id") && !didLoadFromShare) {
+    const id = params.get("id");
+    fetch(`/api/share?id=${id}`).then(async (res) => {
+      setUserInputCode((await res.json()).text);
+      setDidLoadFromShare(true);
+    });
+  }
+
   const [evaluatedOutputCode, setEvaluatedOutputCode] = React.useState(
     "// Change the Pkl code on the left to see some output"
   );
   const [outputFormat, setOutputFormat] = React.useState<OutputOption>("JSON");
+  const [shareLink, setShareLink] = React.useState("");
+  const [shareModalOpen, setShareModalOpen] = React.useState(false);
 
   useEffect(() => {
     const refreshPklOutput = async () => {
@@ -96,6 +111,17 @@ export default function Home() {
     },
     []
   );
+
+  const onCreateShare = React.useCallback(async () => {
+    const response = await fetch("/api/share", {
+      method: "POST",
+      body: userInputCode,
+    });
+    if (response.ok) {
+      setShareLink((await response.json()).id);
+      setShareModalOpen(true);
+    }
+  }, [userInputCode]);
 
   return (
     <main>
@@ -135,7 +161,13 @@ export default function Home() {
             <Columns.Column size="half">
               <Container>
                 <Box>
-                  <Heading>Pkl code</Heading>
+                  <Form.Select onChange={onOutputFormatChange}>
+                    {outputOptions.map((opt) => (
+                      <option value={opt} key={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </Form.Select>
                 </Box>
                 <Box>
                   <CodeMirror
@@ -153,20 +185,10 @@ export default function Home() {
             <Columns.Column size="half">
               <Container>
                 <Box>
-                  <Columns>
-                    <Columns.Column>
-                      <Heading>Output format:</Heading>
-                    </Columns.Column>
-                    <Columns.Column>
-                      <Form.Select onChange={onOutputFormatChange}>
-                        {outputOptions.map((opt) => (
-                          <option value={opt} key={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Columns.Column>
-                  </Columns>
+                  <Button onClick={onCreateShare}>
+                    Share&nbsp;
+                    <FontAwesomeIcon icon={faShare} />
+                  </Button>
                 </Box>
                 <Box>
                   <CodeMirror
@@ -186,6 +208,19 @@ export default function Home() {
           </Columns>
         </Container>
       </Section>
+      <Modal show={shareModalOpen} onClose={() => setShareModalOpen(false)}>
+        <Modal.Card>
+          <Modal.Card.Header>
+            <Modal.Card.Title>Copy share link</Modal.Card.Title>
+          </Modal.Card.Header>
+          <Modal.Card.Body>
+            <Box onClick={() => console.log(shareLink)}>
+              {window.location.href.split("?")[0]}?id={shareLink}
+              <FontAwesomeIcon icon={faCopy} />
+            </Box>
+          </Modal.Card.Body>
+        </Modal.Card>
+      </Modal>
     </main>
   );
 }
