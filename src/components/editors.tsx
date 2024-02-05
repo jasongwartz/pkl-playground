@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Columns,
@@ -22,6 +24,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShare, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useSearchParams } from "next/navigation";
+import copy from "copy-to-clipboard";
 
 const defaultText = `anObject {
     x = 1
@@ -59,14 +62,6 @@ export default function Editors() {
   const [userInputCode, setUserInputCode] = React.useState(defaultText);
 
   const [didLoadFromShare, setDidLoadFromShare] = React.useState(false);
-  const params = useSearchParams();
-  if (params.has("share") && !didLoadFromShare) {
-    const id = params.get("share");
-    fetch(`/api/share?id=${id}`).then(async (res) => {
-      setUserInputCode((await res.json()).text);
-      setDidLoadFromShare(true);
-    });
-  }
 
   const [evaluatedOutputCode, setEvaluatedOutputCode] = React.useState(
     "// Change the Pkl code on the left to see some output"
@@ -75,7 +70,18 @@ export default function Editors() {
   const [shareLink, setShareLink] = React.useState("");
   const [shareModalOpen, setShareModalOpen] = React.useState(false);
 
+  const params = useSearchParams();
   useEffect(() => {
+    if (params.has("share") && !didLoadFromShare) {
+      const id = params.get("share");
+      if (id) {
+        fetch("/api/share?" + new URLSearchParams({ id })).then(async (res) => {
+          setUserInputCode((await res.json()).text);
+          setDidLoadFromShare(true);
+        });
+      }
+    }
+
     const refreshPklOutput = async () => {
       const response = await fetch("/api/pkl/evaluate", {
         method: "POST",
@@ -176,10 +182,7 @@ export default function Editors() {
             <Modal.Card.Title>Copy share link</Modal.Card.Title>
           </Modal.Card.Header>
           <Modal.Card.Body>
-            <Box
-              onClick={() => console.log(shareLink)}
-              className="is-clickable"
-            >
+            <Box onClick={() => copy(shareLink)} className="is-clickable">
               {shareLink}
               <Icon align="right">
                 <FontAwesomeIcon icon={faCopy} />
