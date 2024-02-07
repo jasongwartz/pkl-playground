@@ -11,7 +11,7 @@ export default function Home() {
     <main>
       <Header />
 
-      <Section size="large">
+      <Section>
         <Suspense>
           <Editors />
         </Suspense>
