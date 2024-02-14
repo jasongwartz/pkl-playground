@@ -5,8 +5,14 @@ import {
   Navbar,
   Button,
 } from "react-bulma-components";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
+import {
+  faBook,
+  faBookAtlas,
+  faBookOpen,
+  faBookReader,
+  faPeopleGroup,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Header() {
@@ -17,10 +23,27 @@ export default function Header() {
           <Navbar.Menu>
             <Navbar.Container align="right">
               <Navbar.Item href="https://pkl-lang.org" target="_blank">
-                <Button>
+                <Button textColor="primary">
                   <FontAwesomeIcon icon={faBook} size="xl"></FontAwesomeIcon>
                 </Button>
               </Navbar.Item>
+              <Navbar.Item
+                href="https://github.com/pkl-community"
+                target="_blank"
+              >
+                <Button textColor="primary">
+                  <FontAwesomeIcon
+                    icon={faPeopleGroup}
+                    size="xl"
+                  ></FontAwesomeIcon>
+                </Button>
+              </Navbar.Item>
+              <Navbar.Item href="/discord-invite" target="_blank">
+                <Button color="primary" inverted>
+                  <FontAwesomeIcon icon={faDiscord} size="xl" />
+                </Button>
+              </Navbar.Item>
+
               <Navbar.Item
                 href="https://github.com/jasongwartz/pkl-playground"
                 target="_blank"
