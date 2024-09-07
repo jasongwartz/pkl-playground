@@ -164,7 +164,7 @@ export default function Editors() {
         </Columns.Column>
         <Columns.Column size="half">
           <Container>
-            <Box>
+            <Box style={{ display: "flex", alignItems: "center" }}>
               <Form.Select onChange={onOutputFormatChange}>
                 {outputOptions.map((opt) => (
                   <option value={opt} key={opt}>
@@ -172,6 +172,10 @@ export default function Editors() {
                   </option>
                 ))}
               </Form.Select>
+              <Button onClick={() => copy(evaluatedOutputCode)} style={{ marginLeft: "auto" }}>
+                Copy&nbsp;
+                <FontAwesomeIcon icon={faCopy} />
+              </Button>
             </Box>
             <Box>
               <CodeMirror
