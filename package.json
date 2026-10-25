@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.1",
@@ -17,7 +17,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.6",
     "@pkl-community/pkl-eval": "^0.0.3",
     "@uiw/codemirror-theme-github": "^4.21.21",
     "@uiw/react-codemirror": "^4.21.21",
@@ -25,24 +25,28 @@
     "@vercel/kv": "^1.0.1",
     "@vercel/speed-insights": "^1.0.9",
     "copy-to-clipboard": "^3.3.3",
-    "next": "14.2.35",
+    "next": "16.4.3",
     "random-words": "^2.0.1",
-    "react": "^18",
+    "react": "19.3.1",
     "react-bulma-components": "^4.1.0",
-    "react-dom": "^18"
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.35",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.3",
     "prettier": "^3.2.5",
     "typescript": "^5",
     "vercel": "^33.4.1"
   },
   "engines": {
     "node": "24.x"
+  },
+  "overrides": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0"
   }
 }

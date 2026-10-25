@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
-  experimental: {
-    serverComponentsExternalPackages: ["@pkl-community/pkl-eval"],
-  },
+  serverExternalPackages: ["@pkl-community/pkl-eval"],
   async redirects() {
     return [
       {

@@ -17,38 +17,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Header() {
   return (
-    <Hero color={"primary"}>
-      <Hero.Header>
-        <Navbar>
+    <Hero color={"primary"} renderAs="section">
+      <Hero.Header renderAs="header">
+        <Navbar renderAs="nav">
           <Navbar.Menu>
             <Navbar.Container align="right">
-              <Navbar.Item href="https://pkl-lang.org" target="_blank">
-                <Button textColor="primary">
+              <Navbar.Item renderAs="a" href="https://pkl-lang.org" target="_blank">
+                <Button renderAs="button" textColor="primary">
                   <FontAwesomeIcon icon={faBook} size="xl"></FontAwesomeIcon>
                 </Button>
               </Navbar.Item>
               <Navbar.Item
+                renderAs="a"
                 href="https://github.com/pkl-community"
                 target="_blank"
               >
-                <Button textColor="primary">
+                <Button renderAs="button" textColor="primary">
                   <FontAwesomeIcon
                     icon={faPeopleGroup}
                     size="xl"
                   ></FontAwesomeIcon>
                 </Button>
               </Navbar.Item>
-              <Navbar.Item href="/discord-invite" target="_blank">
-                <Button color="primary" inverted>
+              <Navbar.Item renderAs="a" href="/discord-invite" target="_blank">
+                <Button renderAs="button" color="primary" inverted>
                   <FontAwesomeIcon icon={faDiscord} size="xl" />
                 </Button>
               </Navbar.Item>
 
               <Navbar.Item
+                renderAs="a"
                 href="https://github.com/jasongwartz/pkl-playground"
                 target="_blank"
               >
-                <Button color="primary" inverted>
+                <Button renderAs="button" color="primary" inverted>
                   <FontAwesomeIcon icon={faGithub} size="xl" />
                 </Button>
               </Navbar.Item>
@@ -58,8 +60,8 @@ export default function Header() {
       </Hero.Header>
       <Hero.Body>
         <Container>
-          <Heading>Pkl Playground</Heading>
-          <Heading subtitle>By the Pkl Community</Heading>
+          <Heading renderAs="h1">Pkl Playground</Heading>
+          <Heading renderAs="h1" subtitle>By the Pkl Community</Heading>
         </Container>
       </Hero.Body>
     </Hero>
