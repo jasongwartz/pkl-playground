@@ -11,7 +11,7 @@ export default function Home() {
     <main>
       <Header />
 
-      <Section>
+      <Section renderAs="section">
         <Suspense>
           <Editors />
         </Suspense>

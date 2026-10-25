@@ -140,11 +140,11 @@ export default function Editors() {
 
   return (
     <Container>
-      <Columns>
+      <Columns multiline>
         <Columns.Column size="half">
           <Container>
             <Box>
-              <Button onClick={onCreateShare}>
+              <Button renderAs="button" onClick={onCreateShare}>
                 Share&nbsp;
                 <FontAwesomeIcon icon={faShare} />
               </Button>
@@ -165,14 +165,14 @@ export default function Editors() {
         <Columns.Column size="half">
           <Container>
             <Box style={{ display: "flex", alignItems: "center" }}>
-              <Form.Select onChange={onOutputFormatChange}>
+              <Form.Select renderAs="select" onChange={onOutputFormatChange}>
                 {outputOptions.map((opt) => (
                   <option value={opt} key={opt}>
                     {opt}
                   </option>
                 ))}
               </Form.Select>
-              <Button onClick={() => copy(evaluatedOutputCode)} style={{ marginLeft: "auto" }}>
+              <Button renderAs="button" onClick={() => copy(evaluatedOutputCode)} style={{ marginLeft: "auto" }}>
                 Copy&nbsp;
                 <FontAwesomeIcon icon={faCopy} />
               </Button>
@@ -193,15 +193,20 @@ export default function Editors() {
           </Container>
         </Columns.Column>
       </Columns>
-      <Modal show={shareModalOpen} onClose={() => setShareModalOpen(false)}>
+      <Modal
+        show={shareModalOpen}
+        closeOnEsc
+        showClose
+        onClose={() => setShareModalOpen(false)}
+      >
         <Modal.Card>
-          <Modal.Card.Header>
-            <Modal.Card.Title>Copy share link</Modal.Card.Title>
+          <Modal.Card.Header renderAs="header" showClose>
+            <Modal.Card.Title renderAs="p">Copy share link</Modal.Card.Title>
           </Modal.Card.Header>
-          <Modal.Card.Body>
+          <Modal.Card.Body renderAs="section">
             <Box onClick={() => copy(shareLink)} className="is-clickable">
               {shareLink}
-              <Icon align="right">
+              <Icon renderAs="span" align="right">
                 <FontAwesomeIcon icon={faCopy} />
               </Icon>
             </Box>
